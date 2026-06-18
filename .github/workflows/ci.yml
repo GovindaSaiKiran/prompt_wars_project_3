@@ -84,3 +84,5 @@ jobs:
       - run: cd frontend && npm ci && npm run build
       - run: npm install -g firebase-tools
       - run: firebase deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 4/0AdkVLPya8z1Nt4UbDzKB3e-rZFfyhFAIt1WUTcJjMUxHV5vnx5a2U1dTnfIowTsGvBoMNw
