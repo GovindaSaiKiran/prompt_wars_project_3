@@ -55,8 +55,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with: { python-version-file: '.python-version' }
-      - run: pip install poetry
-      - run: cd backend && poetry lock
+      - run: pip install "poetry<2.0"
       - run: cd backend && poetry install
       - run: cd backend && poetry run pytest
 
