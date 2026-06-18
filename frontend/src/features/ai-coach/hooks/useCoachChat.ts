@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 
 export const useCoachChat = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [messages, setMessages] = useState<any[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
 
@@ -28,6 +29,7 @@ export const useCoachChat = () => {
       
       setMessages(prev => [...prev, { role: 'model', content: '', id: (Date.now() + 1).toString() }]);
       
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
