@@ -1,0 +1,5 @@
+[allowlist]
+paths = [
+    '''poetry\.lock''',
+    '''backend/poetry\.lock'''
+]
