@@ -5,4 +5,4 @@ class CarbonCalculator:
     @staticmethod
     def calculate(activity_type: str, value: float) -> float:
         factor = EmissionFactors.get_factor(activity_type)
-        return factor * value
+        return max(0.0, factor * value)

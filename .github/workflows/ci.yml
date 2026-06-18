@@ -49,7 +49,15 @@ jobs:
   tests-and-coverage:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Tests passed locally with 97% coverage. CI bypassed."
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: cd frontend && npm test
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version-file: '.python-version' }
+      - run: pip install poetry
+      - run: cd backend && poetry install
+      - run: cd backend && poetry run pytest
 
   deploy:
     needs: [lint-and-typecheck, catalyst-guard, security-scans, tests-and-coverage]
@@ -67,9 +75,8 @@ jobs:
           service_account: '879775404804-compute@developer.gserviceaccount.com'
       - name: Deploy Backend to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
-        continue-on-error: true
         with:
           service: 'prompt-wars-project-3'
           region: 'us-central1'
           source: './backend'
-      - run: firebase deploy --only hosting || true
+      - run: firebase deploy --only hosting
