@@ -1,0 +1,75 @@
+name: Phase 0 Quality Gates
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: { node-version-file: '.nvmrc' }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version-file: '.python-version' }
+      - run: pip install mypy
+      - run: mypy --strict backend/app
+
+  catalyst-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail on Zoho Catalyst traces
+        run: |
+          if grep -ir "catalyst" .; then
+            echo "Catalyst traces found! Rejecting build."
+            exit 1
+          fi
+
+  security-scans:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm audit --audit-level=high
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version-file: '.python-version' }
+      - run: pip install pip-audit
+      - run: pip-audit
+      - run: semgrep ci || true
+      - uses: zricethezav/gitleaks-action@v2
+
+  tests-and-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: cd frontend && npm test
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version-file: '.python-version' }
+      - run: pip install poetry
+      - run: cd backend && poetry install
+      - run: cd backend && poetry run pytest
+
+  deploy:
+    needs: [lint-and-typecheck, catalyst-guard, security-scans, tests-and-coverage]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/123/locations/global/workloadIdentityPools/github/providers/github'
+      - run: firebase deploy --only hosting

@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=local
+  
+  firebase-emulators:
+    image: spine3/firebase-emulator:latest
+    ports:
+      - "8080:8080" # Firestore
+      - "9099:9099" # Auth
+      - "9199:9199" # Storage
+      - "4000:4000" # UI
