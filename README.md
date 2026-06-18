@@ -9,6 +9,19 @@ EcoSphere AI is a robust, production-ready sustainability platform featuring:
 - **Sustainability Planner**: Goal setting and tracking.
 - **Community Leaderboard**: Hashed, anti-gaming integrity layers for global competition.
 
+## 📄 Hackathon Audits & Reports
+- [Investigation Report](docs/reports/INVESTIGATION_REPORT.md)
+- [Testing Report](docs/reports/TESTING_REPORT.md)
+- [Security Audit](docs/reports/SECURITY_AUDIT.md)
+- [Accessibility Report](docs/reports/ACCESSIBILITY_REPORT.md)
+- [Performance Report](docs/reports/PERFORMANCE_REPORT.md)
+- [Google Services Report](docs/reports/GOOGLE_SERVICES_REPORT.md)
+- [Deployment Report](docs/reports/DEPLOYMENT_REPORT.md)
+- [Repository Health Report](docs/reports/REPOSITORY_HEALTH_REPORT.md)
+- [Prompt Wars Score Audit](docs/reports/PROMPT_WARS_SCORE_AUDIT.md)
+- [Smoke Test Report](docs/reports/SMOKE_TEST_REPORT.md)
+- [Submission Readiness](docs/reports/SUBMISSION_READINESS.md)
+
 ## Development
 
 This project uses a monorepo structure with FastAPI (Python) and React (Vite).
