@@ -6,7 +6,7 @@ router = APIRouter()
 @router.get("/leaderboard")
 async def get_leaderboard():
     # Real logic implementation interacting with community service
-    from app.services.scoring.leaderboard_contribution import LeaderboardService
+    from app.services.scoring.leaderboard_contribution import LeaderboardPrep
     
     # Normally this would fetch from a DB, but we use real services for now
     data = [
