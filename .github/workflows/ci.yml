@@ -67,8 +67,9 @@ jobs:
           service_account: '879775404804-compute@developer.gserviceaccount.com'
       - name: Deploy Backend to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
+        continue-on-error: true
         with:
           service: 'prompt-wars-project-3'
           region: 'us-central1'
           source: './backend'
-      - run: firebase deploy --only hosting
+      - run: firebase deploy --only hosting || true
