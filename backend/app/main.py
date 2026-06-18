@@ -4,6 +4,12 @@ from app.core.security import add_security_headers
 
 app = FastAPI()
 
+from fastapi.responses import RedirectResponse
+
+@app.get("/")
+def read_root():
+    return RedirectResponse(url="/docs")
+
 from app.api.endpoints.coach import router as coach_router
 app.include_router(coach_router, prefix="/api/v1/coach", tags=["coach"])
 from app.api.endpoints.carbon import router as carbon_router
