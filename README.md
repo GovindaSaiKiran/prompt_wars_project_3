@@ -1,6 +1,6 @@
 # EcoSphere AI 🌍
 
-**Live Demo:** [https://prompt-wars-project-3.web.app](https://prompt-wars-project-3.web.app)
+**Live Demo:** [https://echosphereai-d5164.web.app](https://echosphereai-d5164.web.app)
 
 EcoSphere AI is a robust, production-ready sustainability platform featuring:
 - **Carbon Intelligence Engine**: Mathematically verified emission calculations.
