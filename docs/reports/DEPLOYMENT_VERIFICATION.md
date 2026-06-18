@@ -9,7 +9,7 @@
 ## Verification
 
 ### Service URL
-`<PENDING_URL>`
+`https://prompt-wars-project-3-oardwr3raa-uc.a.run.app`
 
 ### API Endpoints Verified
 1. `GET /api/v1/community/leaderboard`
