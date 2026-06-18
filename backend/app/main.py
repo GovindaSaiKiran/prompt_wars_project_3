@@ -22,3 +22,5 @@ from app.api.endpoints.twin import router as twin_router
 app.include_router(twin_router, prefix="/api/v1/twin", tags=["twin"])
 from app.api.endpoints.planner import router as planner_router
 app.include_router(planner_router, prefix="/api/v1/planner", tags=["planner"])
+from app.api.endpoints.community import router as community_router
+app.include_router(community_router, prefix="/api/v1/community", tags=["community"])
