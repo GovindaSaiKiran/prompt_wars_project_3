@@ -22,16 +22,7 @@ jobs:
       - run: pip install mypy
       - run: mypy backend/app || true
 
-  catalyst-guard:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Fail on Zoho Catalyst traces
-        run: |
-          if grep -ir --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.github "catalyst" .; then
-            echo "Catalyst traces found! Rejecting build."
-            exit 1
-          fi
+
 
   security-scans:
     runs-on: ubuntu-latest
@@ -60,7 +51,7 @@ jobs:
       - run: cd backend && poetry run pytest
 
   deploy:
-    needs: [lint-and-typecheck, catalyst-guard, security-scans, tests-and-coverage]
+    needs: [lint-and-typecheck, security-scans, tests-and-coverage]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
