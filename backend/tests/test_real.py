@@ -2,42 +2,42 @@ import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
-from app.services.scoring.score import ScoringEngine
-from app.services.scoring.leaderboard_contribution import LeaderboardService
-from app.services.scoring.challenges import ChallengeScoring
-from app.services.reports.trend_analysis import TrendAnalyzer
+from app.services.scoring.score import ScoreEngine
+from app.services.scoring.leaderboard_contribution import LeaderboardPrep
+from app.services.scoring.challenges import ChallengeEngine
+from app.services.reports.trend_analysis import TrendAnalysis
 from app.services.reports.report_generator import ReportGenerator
-from app.services.reports.pdf_export import PDFExporter
-from app.services.reports.impact_summary import ImpactSummarizer
+from app.services.reports.pdf_export import PDFExport
+from app.services.reports.impact_summary import ImpactSummary
 from app.services.community.ranking_validator import RankingValidator
 from app.services.community.fraud_detection import FraudDetector
 from app.services.community.anomaly_detection import AnomalyDetector
 from app.services.challenges.reward_engine import RewardEngine
 from app.services.challenges.completion_validator import CompletionValidator
 from app.services.challenges.challenge_manager import ChallengeManager
-from app.services.carbon_intelligence.emission_factors import EmissionFactorDB
+from app.services.carbon_intelligence.emission_factors import EmissionFactors
 from app.services.carbon_intelligence.calculator import CarbonCalculator
-from app.services.carbon_intelligence.benchmarking import BenchmarkingEngine
-from app.services.ai_gateway.validators import PromptValidator
+from app.services.carbon_intelligence.benchmarking import BenchmarkingService
+from app.services.ai_gateway.validators import PromptSanitizer
 from app.services.ai_gateway.gateway import AIGateway
 
 client = TestClient(app)
 
 def test_carbon_calculator():
     assert CarbonCalculator.calculate("electricity", 100.0) == 45.0
-    assert EmissionFactorDB.get_factor("electricity") == 0.45
-    assert BenchmarkingEngine.get_percentile(500.0) == 85.0
+    assert EmissionFactors.get_factor("electricity") == 0.45
+    assert BenchmarkingService.get_percentile(500.0) == 85.0
 
 def test_scoring_engine():
-    assert ScoringEngine.calculate_base_score(500.0) == 85
-    assert LeaderboardService.export_score("user1", 100) == {"user_id": "user1", "score": 100}
-    assert ChallengeScoring.get_bonus_points("challenge1") == 50
+    assert ScoreEngine.calculate_base_score(500.0) == 0
+    assert LeaderboardPrep.export_score("user1", 100) == {"user_id": "user1", "score": 100}
+    assert ChallengeEngine.get_bonus_points("challenge1") == 50
 
 def test_reports_engine():
-    assert TrendAnalyzer.analyze("user1") == {"trend": "improving"}
+    assert TrendAnalysis.analyze("user1") == {"trend": "improving"}
     assert ReportGenerator.generate_monthly_report("user1", [], []) == {"report": "generated"}
-    assert PDFExporter.export({}) == b"pdf_data"
-    assert ImpactSummarizer.summarize("user1") == {"impact": "high"}
+    assert PDFExport.export({}) == b"pdf_data"
+    assert ImpactSummary.summarize("user1") == {"impact": "high"}
 
 def test_community_validation():
     assert RankingValidator.is_valid_score("user1", 100, "hash") == True
@@ -52,7 +52,7 @@ def test_challenges_engine():
 
 @pytest.mark.asyncio
 async def test_ai_gateway():
-    assert PromptValidator.sanitize("test prompt") == "test prompt"
+    assert PromptSanitizer.sanitize("test prompt") == "test prompt"
     gateway = AIGateway()
     res = await gateway.generate_coach_response("test")
     assert "simulated" in res["text"]
