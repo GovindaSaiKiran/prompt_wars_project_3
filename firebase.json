@@ -3,6 +3,13 @@
     "public": "frontend/dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "prompt-wars-project-3",
+          "region": "us-central1"
+        }
+      },
       { "source": "**", "destination": "/index.html" }
     ]
   },
