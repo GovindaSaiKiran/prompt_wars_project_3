@@ -56,6 +56,7 @@ jobs:
         uses: actions/setup-python@v5
         with: { python-version-file: '.python-version' }
       - run: pip install poetry
+      - run: cd backend && poetry lock
       - run: cd backend && poetry install
       - run: cd backend && poetry run pytest
 
@@ -71,6 +72,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: google-github-actions/auth@v2
         with:
+          project_id: 'perceptive-bay-493811-c1'
           workload_identity_provider: 'projects/879775404804/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: '879775404804-compute@developer.gserviceaccount.com'
       - name: Deploy Backend to Cloud Run
@@ -79,4 +81,5 @@ jobs:
           service: 'prompt-wars-project-3'
           region: 'us-central1'
           source: './backend'
+          project_id: 'perceptive-bay-493811-c1'
       - run: firebase deploy --only hosting
