@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "echosphereai-d5164",
     "public": "frontend/dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
